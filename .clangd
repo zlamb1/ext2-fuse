@@ -1,2 +1,4 @@
 CompileFlags:
     CompilationDatabase: out
+Diagnostics:
+    UnusedIncludes: None

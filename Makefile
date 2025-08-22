@@ -1,6 +1,6 @@
-SRCDIR := src
-OUTDIR := out
-OUTEXE := $(OUTDIR)/ext2-fuse  
+SRCDIR ?= src
+OUTDIR ?= out
+OUTEXE ?= $(OUTDIR)/ext2-fuse  
 
 WARN    := -Wall -Wextra -Werror -Wshadow -Wpointer-arith -Wstrict-prototypes \
 		   -Wmissing-prototypes -Wno-missing-braces -Wno-missing-field-initializers -Wbad-function-cast \
@@ -11,7 +11,7 @@ CFLAGS  := $(WARN) $(shell pkgconf --cflags fuse)
 LDFLAGS := $(shell pkgconf --libs fuse)
 
 INCL   := include
-SRCS   := main
+SRCS   := main ext2
 OBJS   := $(patsubst %,$(OUTDIR)/$(SRCDIR)/%.o,$(SRCS))
 DEPS   := $(OBJS:.o=.d)
 
@@ -20,7 +20,7 @@ DEPS   := $(OBJS:.o=.d)
 all: $(OUTEXE)
 
 $(OUTEXE): $(OBJS)
-	$(CC) $< -o $@ $(LDFLAGS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
 $(OUTDIR)/%.o: %.c
 	mkdir -p $(dir $@)
